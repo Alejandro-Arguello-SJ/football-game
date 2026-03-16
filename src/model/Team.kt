@@ -1,6 +1,6 @@
 package model
 
-class Team(val nombre: String) {
+class Team(val name: String) {
 
     private val players: MutableList<Player> = mutableListOf()
 
@@ -25,8 +25,8 @@ class Team(val nombre: String) {
      * Solo puede ser Delantero o Mediocampista, y debe estar disponible.
      * Lo marca como no disponible y lo retorna.
      */
-    fun getAttacker(id: Int): Player? {
-        val player = listAttackers().getOrNull(id) ?: return null
+    fun getPlayer(id: Int): Player? {
+        val player = players.getOrNull(id) ?: return null
         if (!player.available) return null
         player.available = false
         return player
@@ -43,31 +43,25 @@ class Team(val nombre: String) {
     }
 
     /**
+     * Lista todos los miembros del equipo
+     */
+    fun listTeam() = players.toList()
+
+    /**
      * Lista los atacantes disponibles con su índice visible al usuario.
      * Solo incluye Delanteros y Mediocampistas disponibles.
      */
     fun listAttackers(): List<Player> =
-        players.filter { it is Defender || it is Midfielder }
+        players.filter { it is Midfielder || it is Striker }
 
     fun availableAttackers(): Boolean =
         listAttackers().any { it.available }
 
-    fun isValid(): Boolean {
-        if (players.size !in MIN_PLAYERS..MAX_PLAYERS) return false
-        if (players.none { it is Defender }) return false
-        if (players.none { it is Midfielder }) return false
-        if (players.none { it is Striker }) return false
-        return true
-    }
-
     override fun toString(): String = buildString {
-        appendLine("── Equipo: $nombre (${players.size} jugadores) ──")
-        listAttackers().forEachIndexed { i, j ->
-            val estado = if (j.available) "✅" else "⛔"
-            appendLine("  [$i] $estado $j")
-        }
-        players.filterIsInstance<Defender>().forEach { d ->
-            appendLine("  [D] $d")
+        appendLine("── Equipo: $name (${players.size} jugadores) ──")
+        listTeam().forEachIndexed { i, j ->
+            val state = if (j.available) "✅" else "⛔"
+            appendLine("  [$i] $state $j")
         }
     }
 }
