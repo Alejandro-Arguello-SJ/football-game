@@ -13,5 +13,5 @@ abstract class Player(
     abstract fun isValid(): Boolean
 
     override fun toString(): String =
-        "$name | ATK: $attack  DEF: $defense"
+        "${this::class.simpleName} | $name | ATK: $attack  DEF: $defense"
 }
