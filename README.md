@@ -323,7 +323,7 @@ Para simular otro deporte (por ejemplo, baloncesto), solo necesitas:
    }
    ```
 
-**4. Reutilizar `Team`, `Game` y `Printer` sin cambios**
+4. Reutilizar `Team`, `Game` y `Printer` sin cambios**
 
 Las clases `Team`, `Game` y `Printer` operan sobre `Player` de forma genérica — no conocen nada específico del fútbol. No necesitan modificarse para soportar el nuevo deporte.
 
