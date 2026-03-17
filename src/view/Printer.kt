@@ -9,9 +9,9 @@ import Team
  * Acts as the presentation layer, formatting and printing each stage
  * of the game: the opening screen, turn-by-turn results, and the
  * final scoreboard. All game output is centralized here to keep
- * [Game] free of display logic.
+ * [controller.Game] free of display logic.
  *
- * @see Game
+ * @see controller.Game
  * @see TurnResult
  */
 class Printer {
@@ -49,7 +49,7 @@ class Printer {
     /**
      * Prints the full roster of a single team.
      *
-     * Each player is printed using their [Player.toString] representation.
+     * Each player is printed using their [model.Player.toString] representation.
      *
      * @param teamName the display name of the team.
      * @param team the roster of players to display.
