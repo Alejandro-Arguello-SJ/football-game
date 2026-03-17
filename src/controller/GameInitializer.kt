@@ -1,10 +1,11 @@
 package controller
 
-import model.DefendersFactory
-import model.MidfielderFactory
-import model.RandomPlayerFactory
-import model.StrikersFactory
-import model.Team
+import factories.DefendersFactory
+import factories.MidfielderFactory
+import factories.RandomPlayerFactory
+import factories.StrikersFactory
+import model.Player
+import Team
 
 class GameInitializer {
 
@@ -14,37 +15,27 @@ class GameInitializer {
         StrikersFactory()
     )
 
-    fun createTeam(name: String, size: Int = 7): Team {
-        require(size in Team.MIN_PLAYERS..Team.MAX_PLAYERS) {
-            "El tamaño del equipo debe estar entre " +
-                    "${Team.MIN_PLAYERS} y ${Team.MAX_PLAYERS}"
-        }
-
+    fun createTeam(size: Int = 7): Team {
         val (defendersFactory, midfielderFactory, strikerFactory) = createFactories()
         val randomFactory = RandomPlayerFactory(defendersFactory, midfielderFactory, strikerFactory)
 
-        val team = Team(name)
+        val team = mutableListOf<Player>()
 
-        team.addPlayer(defendersFactory.createPlayer())
-        team.addPlayer(midfielderFactory.createPlayer())
-        team.addPlayer(strikerFactory.createPlayer())
+        team.add(defendersFactory.createPlayer())
+        team.add(midfielderFactory.createPlayer())
+        team.add(strikerFactory.createPlayer())
 
         val remainders = size - 3
         repeat(remainders) {
-            team.addPlayer(randomFactory.createPlayer())
+            team.add(randomFactory.createPlayer())
         }
 
         return team
     }
 
-
-    fun initGame(
-        nameA: String = "Equipo A",
-        nameB: String = "Equipo B",
-        size: Int = 7
-    ): Pair<Team, Team> {
-        val teamA = createTeam(nameA, size)
-        val teamB = createTeam(nameB, size)
+    fun initTeams(size: Int = 7): Pair<Team, Team> {
+        val teamA = createTeam(size)
+        val teamB = createTeam(size)
         return Pair(teamA, teamB)
     }
 }
