@@ -1,4 +1,4 @@
-package model
+package factories
 
 object PlayerNames {
     val defender = setOf(

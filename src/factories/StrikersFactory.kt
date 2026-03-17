@@ -1,4 +1,8 @@
-package model
+package factories
+
+import factories.PlayerNames
+import factories.Ranges
+import model.Striker
 
 class StrikersFactory : PlayersFactory {
     private val usedNames = mutableSetOf<String>()

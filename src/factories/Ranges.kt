@@ -1,4 +1,4 @@
-package model
+package factories
 
 object Ranges {
     val low   = 20..45

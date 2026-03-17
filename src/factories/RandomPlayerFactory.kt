@@ -1,4 +1,7 @@
-package model
+package factories
+
+import model.Player
+import factories.StrikersFactory
 
 class RandomPlayerFactory(
     private val defendersFactory: DefendersFactory,
