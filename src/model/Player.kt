@@ -1,17 +1,13 @@
 package model
 
+/**
+ * This class is the base to create new players
+ */
 abstract class Player(
     val name: String,
     val attack: Int,
-    val defense: Int,
-    var available: Boolean = true
+    val defense: Int
 ) {
-    /**
-     * Cada subclase define si sus atributos son válidos
-     * según las reglas de su posición.
-     */
-    abstract fun isValid(): Boolean
-
     override fun toString(): String =
-        "${this::class.simpleName} | $name | ATK: $attack  DEF: $defense"
+        "${this::class.simpleName} | $name | ATK: $attack | DEF: $defense"
 }
