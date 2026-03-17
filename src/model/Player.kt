@@ -1,7 +1,15 @@
 package model
 
 /**
- * This class is the base to create new players
+ * Represents the base structure for all players in the game.
+ *
+ * This abstract class defines the core attributes and behavior shared
+ * across all player types. Concrete subclasses must extend this class
+ * to define specialized player variants.
+ *
+ * @property name the display name of the player.
+ * @property attack the attack power of the player, used during clashes.
+ * @property defense the defense power of the player, used to resist attacks.
  */
 abstract class Player(
     val name: String,
