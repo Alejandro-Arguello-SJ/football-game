@@ -1,7 +1,5 @@
 package factories
 
-import factories.PlayerNames
-import factories.Ranges
 import model.Striker
 
 class StrikersFactory : PlayersFactory {

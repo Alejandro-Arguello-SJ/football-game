@@ -1,8 +1,6 @@
 package factories
 
 import model.Defender
-import factories.PlayerNames
-import factories.Ranges
 
 class DefendersFactory : PlayersFactory {
     private val usedNames = mutableSetOf<String>()
