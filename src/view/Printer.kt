@@ -1,63 +1,65 @@
 package view
 
 import controller.TurnResult
-import model.Team
+import Team
 
 class Printer {
 
-    fun printHome(teamA: Team, teamB: Team) {
+    fun printHome(
+        teamAName: String,
+        teamA: Team,
+        teamBName: String,
+        teamB: Team
+    ) {
         println()
         println("========================================")
         println("=       SIMULACIÓN DE PARTIDO          =")
         println("========================================")
         println()
-        printTeam(teamA)
+        printTeam(teamAName, teamA)
         println()
-        printTeam(teamB)
+        printTeam(teamBName, teamB)
         println()
         println("¡Comienza el partido!")
         println("─".repeat(42))
     }
 
-     fun printTeam(team: Team) {
-        println("  🟦 ${team.name}")
-        println(team)
+     fun printTeam(teamName: String, team: Team) {
+         println("========================================")
+         println(teamName)
+         println("========================================")
+         team.forEach {
+             println(it)
+         }
+         println("========================================")
     }
 
     fun printCurrentState(
-        turnNumber: Int,
-        teamForward: Team,
+        teamName: String,
         pointsA: Int,
         pointsB: Int
     ) {
-        println()
-        println("  Turno $turnNumber — Ataca: ${teamForward.name}")
-        println("  Marcador → $pointsA : $pointsB")
-        println()
+        println("Ataca: $teamName")
+        println("Marcador → $pointsA : $pointsB")
     }
 
     fun printTurnResult(result: TurnResult) {
         val attacker = result.attacker
         val defender = result.defender
-        val symbol  = if (result.attackerWin) "✅" else "⛔"
-        val text    = if (result.attackerWin) "¡Punto para ${result.attackerTeam}!"
+        val symbol = if (result.attackerWin) "✅" else "⛔"
+        val text = if (result.attackerWin) "¡Punto para ${result.attackerTeam}!"
         else "Sin punto."
 
         println()
-        println(" ${attacker.name} (ATK ${attacker.attack})")
-        println(" vs ${defender.name} (DEF ${defender.defense})")
-        println("  $symbol  $text")
+        println("${attacker.name} (ATK ${attacker.attack})")
+        println("vs ${defender.name} (DEF ${defender.defense})")
+        println("$symbol  $text")
         println("─".repeat(42))
     }
 
-    fun printInvalidInput() {
-        println("Selección inválida. Intenta de nuevo.")
-    }
-
-
     fun printWinner(
-        teamA: Team,
-        teamB: Team,
+        teamAName: String,
+        teamBName: String,
         pointsA: Int,
         pointsB: Int
     ) {
@@ -66,16 +68,16 @@ class Printer {
         println("=           RESULTADO FINAL            =")
         println("========================================")
         println()
-        println("  ${teamA.name.padEnd(20)} $pointsA pts")
-        println("  ${teamB.name.padEnd(20)} $pointsB pts")
+        println("  ${teamAName.padEnd(20)} $pointsA pts")
+        println("  ${teamBName.padEnd(20)} $pointsB pts")
         println()
 
-        val mensaje = when {
-            pointsA > pointsB -> "🏆  ¡${teamA.name} gana el partido!"
-            pointsB > pointsA -> "🏆  ¡${teamB.name} gana el partido!"
-            else              -> "🤝  ¡Empate!"
+        val message = when {
+            pointsA > pointsB -> "🏆  ¡${teamAName} gana el partido!"
+            pointsB > pointsA -> "🏆  ¡${teamBName} gana el partido!"
+            else -> "🤝  ¡Empate!"
         }
-        println("  $mensaje")
+        println("  $message")
         println()
     }
 }

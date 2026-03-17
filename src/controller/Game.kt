@@ -1,100 +1,79 @@
 package controller
 
-import model.Defender
 import model.Player
-import model.Team
 import view.Printer
-
-enum class Turn { TEAM_A, TEAM_B }
-
-data class TurnResult(
-    val turn: Int,
-    val attacker: Player,
-    val defender: Player,
-    val attackerTeam: String,
-    val attackerWin: Boolean
-)
+import Team
 
 class Game(
+    private val teamAName: String,
     private val teamA: Team,
+    private val teamBName: String,
     private val teamB: Team,
     private val printer: Printer = Printer()
 ) {
+    companion object {
+        const val TEAM_A = 0
+        const val TEAM_B = 1
+    }
+
     private var pointsA = 0
     private var pointsB = 0
-    private var turn = Turn.TEAM_A
-    private var turnNumber = 0
-    
+    private var turn = TEAM_A
 
     fun play() {
-        printer.printHome(teamA, teamB)
+        printer.printHome(teamAName, teamA, teamBName, teamB)
 
-        while (teamA.availableAttackers() && teamB.availableAttackers()) {
-            turnNumber++
-            val (attackerTeam, defenderTeam) = teamsByTurn()
+        while (!teamA.isEmpty() && !teamB.isEmpty()) {
+            val (attackerTeamName, attackerTeam, defenderTeam) = getTurnContext()
 
-            printer.printCurrentState(turnNumber, attackerTeam, pointsA, pointsB)
+            printer.printCurrentState(attackerTeamName, pointsA, pointsB)
 
-            val attacker = getAttacker(attackerTeam) ?: break
-            val defender = defenderTeam.getDefender() ?: break
+            val attacker = popPlayer(attackerTeam)
+            val defender = popPlayer(defenderTeam)
 
-            val result = clash(turnNumber,attacker, defender, attackerTeam.name)
+            val result = clash(attacker, defender, attackerTeamName)
 
             printer.printTurnResult(result)
             updatePoints(result)
             shiftTurn()
         }
 
-        printer.printWinner(teamA, teamB, pointsA, pointsB)
+        printer.printWinner(teamAName, teamBName, pointsA, pointsB)
     }
 
     private fun clash(
-        turnNumber: Int,
         attacker: Player,
         defender: Player,
         attackerTeam: String
     ): TurnResult {
         val win = attacker.attack > defender.defense
         return TurnResult(
-            turn           = turnNumber,
-            attacker        = attacker,
-            defender        = defender,
-            attackerTeam  = attackerTeam,
-            attackerWin    = win
+            attacker = attacker,
+            defender = defender,
+            attackerTeam = attackerTeam,
+            attackerWin = win
         )
     }
 
-    private fun getAttacker(team: Team): Player? {
-        val available  = team.listTeam().filter { it.available }
-
-        if (available.isEmpty()) return null
-
-        printer.printTeam(team)
-
-        var player: Player? = null
-        while (player == null) {
-            print("  Elige un atacante: ")
-            val input = readLine()?.trim()?.toIntOrNull()
-            player = if (input != null) team.getPlayer(input) else null
-            if (player == null != player is Defender) {
-                player = null
-                printer.printInvalidInput()
-            }
-        }
+    private fun popPlayer(team: Team): Player {
+        val playerIndex = team.indices.random()
+        val player = team[playerIndex]
+        team.removeAt(playerIndex)
         return player
     }
 
-    private fun teamsByTurn(): Pair<Team, Team> =
-        if (turn == Turn.TEAM_A) Pair(teamA, teamB)
-        else Pair(teamB, teamA)
+    fun getTurnContext() = if (turn == TEAM_A)
+        TurnContext(teamAName, teamA, teamB)
+    else
+        TurnContext(teamBName, teamB, teamA)
 
     private fun updatePoints(result: TurnResult) {
         if (result.attackerWin) {
-            if (turn == Turn.TEAM_A) pointsA++ else pointsB++
+            if (turn == TEAM_A) pointsA++ else pointsB++
         }
     }
 
     private fun shiftTurn() {
-        turn = if (turn == Turn.TEAM_A) Turn.TEAM_B else Turn.TEAM_A
+        turn = if (turn == TEAM_A) TEAM_B else TEAM_A
     }
 }
