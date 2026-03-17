@@ -2,7 +2,6 @@ package factories
 
 import factories.constants.PlayerNames
 import factories.constants.Ranges
-import model.Defender
 import model.Midfielder
 
 /**
@@ -37,7 +36,7 @@ class MidfielderFactory: PlayersFactory {
      */
     override fun createPlayer(): Midfielder {
         val name  = (PlayerNames.midfielder - usedNames).randomOrNull()
-            ?: "Mediocampista${usedNames.size + 1}"
+            ?: "Midfielder${usedNames.size + 1}"
         usedNames.add(name)
 
         val attack  = Ranges.medium.random()

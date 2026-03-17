@@ -35,14 +35,14 @@ class Printer {
     ) {
         println()
         println("========================================")
-        println("=       SIMULACIÓN DE PARTIDO          =")
+        println("=           MATCH SIMULATION           =")
         println("========================================")
         println()
         printTeam(teamAName, teamA)
         println()
         printTeam(teamBName, teamB)
         println()
-        println("¡Comienza el partido!")
+        println("The match begins!")
         println("─".repeat(42))
     }
 
@@ -78,8 +78,8 @@ class Printer {
         pointsA: Int,
         pointsB: Int
     ) {
-        println("Ataca: $teamName")
-        println("Marcador → $pointsA : $pointsB")
+        println("Attacking: $teamName")
+        println("Score → $pointsA : $pointsB")
     }
 
     /**
@@ -96,8 +96,8 @@ class Printer {
         val attacker = result.attacker
         val defender = result.defender
         val symbol = if (result.attackerWin) "✅" else "⛔"
-        val text = if (result.attackerWin) "¡Punto para ${result.attackerTeam}!"
-        else "Sin punto."
+        val text = if (result.attackerWin) "¡Point for ${result.attackerTeam}!"
+        else "No point."
 
         println()
         println("${attacker.name} (ATK ${attacker.attack})")
@@ -126,7 +126,7 @@ class Printer {
     ) {
         println()
         println("========================================")
-        println("=           RESULTADO FINAL            =")
+        println("=             FINAL RESULT             =")
         println("========================================")
         println()
         println("  ${teamAName.padEnd(20)} $pointsA pts")
@@ -134,9 +134,9 @@ class Printer {
         println()
 
         val message = when {
-            pointsA > pointsB -> "🏆  ¡${teamAName} gana el partido!"
-            pointsB > pointsA -> "🏆  ¡${teamBName} gana el partido!"
-            else -> "🤝  ¡Empate!"
+            pointsA > pointsB -> "🏆  $teamAName wins the match!"
+            pointsB > pointsA -> "🏆  $teamBName wins the match!"
+            else -> "🤝  ¡It's a draw!"
         }
         println("  $message")
         println()

@@ -36,7 +36,7 @@ class DefendersFactory : PlayersFactory {
      */
     override fun createPlayer(): Defender {
         val name  = (PlayerNames.defender - usedNames).randomOrNull()
-            ?: "Defensa${usedNames.size + 1}"
+            ?: "Defender${usedNames.size + 1}"
         usedNames.add(name)
 
         val defense = Ranges.high.random()
